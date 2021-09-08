@@ -1,19 +1,21 @@
 package com.atos.medical.model.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-public class CitiesEntity {
+@Table(name="cities")
+public class CitiesEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Basic
     private String name;
+
+    @Basic
     private String zipCode;
 
 
