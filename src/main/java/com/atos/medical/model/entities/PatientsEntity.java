@@ -18,7 +18,7 @@ public class PatientsEntity implements Serializable {
     private String phoneNumber;
     private String photo;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="city", foreignKey = @ForeignKey(name = "CITY_ID_FK"))
     private CitiesEntity city;
 
