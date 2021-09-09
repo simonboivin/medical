@@ -17,6 +17,10 @@ public class UsersEntity implements Serializable {
     private String email;
 
     @Column(nullable = false)
+    private String password;
+
+
+    @Column(nullable = false)
     private String roles;
 
     private String name;
@@ -36,6 +40,14 @@ public class UsersEntity implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getRoles() {
