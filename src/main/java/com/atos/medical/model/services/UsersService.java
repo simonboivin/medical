@@ -53,13 +53,11 @@ public class UsersService {
      */
     @Transactional
     public UsersEntity addUser(String name, String email, String password, String roles, String photoUser) {
-        return saveUser(setUser(new UsersEntity(), name, email, password, roles, photoUser));
+        UsersEntity user = setUser(new UsersEntity(), name, email, password, roles, photoUser);
+        usersRepository.save(user);
+        return user;
     }
 
-    @Transactional
-    public UsersEntity saveUser(UsersEntity user) {
-        return usersRepository.save(user);
-    }
 
     /**
      * Edit an user
@@ -76,7 +74,7 @@ public class UsersService {
     public UsersEntity updateUserById(int id, String name, String email, String password, String roles, String photoUser) {
         Optional<UsersEntity> userOptional = getUserById(id);
         if (userOptional.isPresent()) {
-            return saveUser(setUser(userOptional.get(), name, email, password, roles, photoUser));
+            return usersRepository.save(setUser(userOptional.get(), name, email, password, roles, photoUser));
         } else {
             throw new ObjectNotFoundException(id, "User not found");
         }

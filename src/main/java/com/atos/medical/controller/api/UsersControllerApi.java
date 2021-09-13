@@ -20,11 +20,18 @@ public class UsersControllerApi {
         this.usersService = usersService;
     }
 
+    /**
+     * Get list of all users
+     */
     @GetMapping(path = "", produces = "application/json")
     public List<UsersEntity> getUserListApi() {
         return usersService.getAllUsers();
     }
 
+    /**
+     * Get an user
+     * @param id of the user
+     */
     @GetMapping(path = "/{id}", produces = "application/json")
     public UsersEntity getUserByIdApi(@PathVariable("id") int id) {
         Optional<UsersEntity> userOptional = usersService.getUserById(id);
@@ -35,9 +42,39 @@ public class UsersControllerApi {
         }
     }
 
+    /**
+     * Add a new user
+     */
     @PostMapping(path = "", produces = "application/json")
-    public ResponseEntity<UsersEntity> addUserApi(@RequestBody UsersEntity user) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(usersService.saveUser(user));
+    public ResponseEntity<UsersEntity> addUserApi(@RequestBody UsersEntity userInput) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(
+                usersService.addUser(userInput.getName(),
+                        userInput.getEmail(),
+                        userInput.getPassword(),
+                        userInput.getRoles(),
+                        userInput.getPhotoUser()));
+    }
+
+    /**
+     * Update an user
+     */
+    @PutMapping(path = "/{id}", produces = "application/json")
+    public ResponseEntity<UsersEntity> updateUserApi(@PathVariable("id") int id, @RequestBody UsersEntity userInput) {
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(
+                usersService.updateUserById(id ,userInput.getName(),
+                        userInput.getEmail(),
+                        userInput.getPassword(),
+                        userInput.getRoles(),
+                        userInput.getPhotoUser()));
+    }
+
+    /**
+     * Delete an user
+     */
+    @DeleteMapping(path = "/{id}", produces = "application/json")
+    public ResponseEntity<String> deleteUserApi(@PathVariable("id") int id) {
+        usersService.deleteUserById(id);
+        return ResponseEntity.status(HttpStatus.OK).body("User " + id +" deleted");
     }
 
 }
