@@ -1,5 +1,6 @@
 package com.atos.medical.model.services;
 
+import com.atos.medical.model.entities.PatientsEntity;
 import com.atos.medical.model.entities.UsersEntity;
 import com.atos.medical.model.repositories.UsersRepository;
 import org.hibernate.ObjectNotFoundException;
@@ -36,7 +37,7 @@ public class UsersService {
     }
 
     /**
-     * Set all parameter of user and save this user in the database (part of addUser and updateUserById)
+     * Set all parameter of user (part of addUser and updateUserById)
      */
     private UsersEntity setUser(UsersEntity user, String name, String email, String password, String roles, String photoUser) {
         user.setName(name);
@@ -46,7 +47,6 @@ public class UsersService {
         user.setPhotoUser(photoUser);
         return user;
     }
-
 
     /**
      * Add an user in the database
