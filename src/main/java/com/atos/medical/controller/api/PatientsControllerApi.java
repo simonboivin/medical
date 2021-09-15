@@ -3,7 +3,6 @@ package com.atos.medical.controller.api;
 
 import com.atos.medical.model.entities.PatientsEntity;
 import com.atos.medical.model.services.PatientsService;
-import javassist.NotFoundException;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -55,7 +54,7 @@ public class PatientsControllerApi {
                             patientInput.getPhoto(),
                             patientInput.getCity().getId()));
         } catch (ObjectNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, " City " +  patientInput.getCity().getId()+" not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, " City " + patientInput.getCity().getId() + " not found");
         }
     }
 
@@ -64,20 +63,34 @@ public class PatientsControllerApi {
      */
     @PutMapping(path = "/{id}", produces = "application/json")
     public ResponseEntity<PatientsEntity> editPatientApi(@PathVariable("id") int id, @RequestBody PatientsEntity patientInput) {
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(
-                patientsService.updatePatientById(id,
-                        patientInput.getFirstName(),
-                        patientInput.getLastName(),
-                        patientInput.getEmail(),
-                        patientInput.getPhoneNumber(),
-                        patientInput.getPhoto(),
-                        patientInput.getCity().getId()));
+        Optional<PatientsEntity> patientOptional = patientsService.getPatientById(id);
+        if (patientOptional.isPresent()) {
+            try {
+                return ResponseEntity.status(HttpStatus.ACCEPTED).body(
+                        patientsService.updatePatientById(id,
+                                patientInput.getFirstName(),
+                                patientInput.getLastName(),
+                                patientInput.getEmail(),
+                                patientInput.getPhoneNumber(),
+                                patientInput.getPhoto(),
+                                patientInput.getCity().getId()));
+            } catch (ObjectNotFoundException e) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, " City " + patientInput.getCity().getId() + " not found");
+            }
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The patient is not found");
+        }
     }
 
     @DeleteMapping(path = "/{id}", produces = "application/json")
     public ResponseEntity<String> deletePatientApi(@PathVariable("id") int id) {
-        patientsService.deletePatientById(id);
-        return ResponseEntity.status(HttpStatus.OK).body("Patient " + id + " deleted");
+        Optional<PatientsEntity> patientOptional = patientsService.getPatientById(id);
+        if (patientOptional.isPresent()) {
+            patientsService.deletePatientById(id);
+            return ResponseEntity.status(HttpStatus.OK).body("Patient " + id + " deleted");
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The patient is not found");
+        }
     }
 
 }

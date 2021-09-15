@@ -30,6 +30,7 @@ public class UsersControllerApi {
 
     /**
      * Get an user
+     *
      * @param id of the user
      */
     @GetMapping(path = "/{id}", produces = "application/json")
@@ -60,12 +61,17 @@ public class UsersControllerApi {
      */
     @PutMapping(path = "/{id}", produces = "application/json")
     public ResponseEntity<UsersEntity> updateUserApi(@PathVariable("id") int id, @RequestBody UsersEntity userInput) {
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(
-                usersService.updateUserById(id ,userInput.getName(),
-                        userInput.getEmail(),
-                        userInput.getPassword(),
-                        userInput.getRoles(),
-                        userInput.getPhotoUser()));
+        Optional<UsersEntity> userOptional = usersService.getUserById(id);
+        if (userOptional.isPresent()) {
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(
+                    usersService.updateUserById(id, userInput.getName(),
+                            userInput.getEmail(),
+                            userInput.getPassword(),
+                            userInput.getRoles(),
+                            userInput.getPhotoUser()));
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The user is not found");
+        }
     }
 
     /**
@@ -73,8 +79,13 @@ public class UsersControllerApi {
      */
     @DeleteMapping(path = "/{id}", produces = "application/json")
     public ResponseEntity<String> deleteUserApi(@PathVariable("id") int id) {
-        usersService.deleteUserById(id);
-        return ResponseEntity.status(HttpStatus.OK).body("User " + id +" deleted");
+        Optional<UsersEntity> userOptional = usersService.getUserById(id);
+        if (userOptional.isPresent()) {
+            usersService.deleteUserById(id);
+            return ResponseEntity.status(HttpStatus.OK).body("User " + id + " deleted");
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The user is not found");
+        }
     }
 
 }

@@ -58,11 +58,11 @@ public class PatientsService {
         Optional<CitiesEntity> optionalCity = citiesService.getCityById(idCity);
         if (optionalCity.isPresent()) {
             setPatient(patient, firstName, lastName, email, phoneNumber, photo, optionalCity.get());
+            patientsRepository.save(patient);
+            return patient;
         } else {
             throw new ObjectNotFoundException(idCity, "City not found");
         }
-        patientsRepository.save(patient);
-        return patient;
     }
 
     /**

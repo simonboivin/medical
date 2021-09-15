@@ -1,6 +1,5 @@
 package com.atos.medical.model.services;
 
-import com.atos.medical.model.entities.PatientsEntity;
 import com.atos.medical.model.entities.UsersEntity;
 import com.atos.medical.model.repositories.UsersRepository;
 import org.hibernate.ObjectNotFoundException;
