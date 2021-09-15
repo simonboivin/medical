@@ -14,9 +14,11 @@ import java.util.Optional;
 public class PatientsService {
 
     public final PatientsRepository patientsRepository;
+    public final CitiesService citiesService;
 
-    public PatientsService(PatientsRepository patientsRepository) {
+    public PatientsService(PatientsRepository patientsRepository, CitiesService citiesService) {
         this.patientsRepository = patientsRepository;
+        this.citiesService = citiesService;
     }
 
     /**
@@ -51,9 +53,14 @@ public class PatientsService {
      * Add a patient in the database
      */
     @Transactional
-    public PatientsEntity addPatient(String firstName, String lastName, String email, String phoneNumber, String photo, CitiesEntity city) {
+    public PatientsEntity addPatient(String firstName, String lastName, String email, String phoneNumber, String photo, int idCity) {
         PatientsEntity patient = new PatientsEntity();
-        setPatient(patient, firstName, lastName, email, phoneNumber, photo, city);
+        Optional<CitiesEntity> optionalCity = citiesService.getCityById(idCity);
+        if (optionalCity.isPresent()) {
+            setPatient(patient, firstName, lastName, email, phoneNumber, photo, optionalCity.get());
+        } else {
+            throw new ObjectNotFoundException(idCity, "City not found");
+        }
         patientsRepository.save(patient);
         return patient;
     }
@@ -62,12 +69,13 @@ public class PatientsService {
      * Edit a patient
      */
     @Transactional
-    public PatientsEntity updatePatientById(int id, String firstName, String lastName, String email, String phoneNumber, String photo, CitiesEntity city) {
+    public PatientsEntity updatePatientById(int id, String firstName, String lastName, String email, String phoneNumber, String photo, int idCity) {
         Optional<PatientsEntity> patientOptional = getPatientById(id);
         if (patientOptional.isPresent()) {
             return patientsRepository.save(
-                    setPatient(patientOptional.get(), firstName, lastName, email, phoneNumber, photo, city)
-            );
+                    setPatient(patientOptional.get(), firstName, lastName, email, phoneNumber, photo, citiesService.getCityById(idCity).orElseThrow(
+                            () -> new ObjectNotFoundException(idCity, "City not found")
+                    )));
         } else {
             throw new ObjectNotFoundException(id, "Patient not found");
         }
