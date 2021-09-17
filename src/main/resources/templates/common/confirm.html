@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head th:include="~{ head :: #head }"></head>
+
+<body>
+    <header th:include="~{ header :: #header }"></header>
+    <main>
+        <div class="container">
+            <form action="" method="POST">
+                <h5 th:text="${title}"></h5>
+                <div th:text="${message}"> </div>
+                <button class="btn btn-danger">Confirmer</button>
+                <a class="btn btn-secondary" th:href="@{${href_retour}}" role="button">Annuler</a>
+            </form>
+        </div>
+
+    </main>
+    <footer></footer>
+
+</body>
+
+</html>

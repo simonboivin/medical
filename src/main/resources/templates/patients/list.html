@@ -4,7 +4,7 @@
 <head th:include="~{ head :: #head }"></head>
 
 <body>
-    <header></header>
+    <header th:include="~{ header :: #header }"></header>
     <main>
         <div class="container">
 
@@ -20,6 +20,7 @@
                         <td>Téléphone</td>
                         <td>Ville</td>
                         <td>Photo</td>
+                        <td>Actions</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -31,6 +32,10 @@
                         <td th:utext="${patient.phoneNumber}"></td>
                         <td th:utext="${patient.city?.name}"></td>
                         <td><a th:utext="${patient.photo}" th:href="@{'/photopatients/' + ${patient.photo}}"></a></td>
+                        <td><a class="btn btn-secondary" th:href="@{'/patients/edit/' + ${patient.id}}">Editer</a>
+                            &nbsp;
+                            <a class="btn btn-danger" th:href="@{'/patients/delete/' + ${patient.id}}">Supprimer</a>
+                        </td>
                     </tr>
                 </tbody>
             </table>
