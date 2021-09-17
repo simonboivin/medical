@@ -35,7 +35,7 @@
                         <td><a class="btn btn-secondary" th:href="@{'/patients/edit/' + ${patient.id}}">Editer</a>
                             &nbsp;
                             <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                data-bs-target="#exampleModal" th:dataid="${patient.id}">Supprimer</button>
+                                data-bs-target="#deleteModal" th:dataid="${patient.id}">Supprimer</button>
                         </td>
                     </tr>
                 </tbody>
@@ -48,12 +48,12 @@
 
 
     <!-- Modal -->
-    <div class="modal fade " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <form class="modal-form" action="" method="POST">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Suppression d'un patient</h5>
+                        <h5 class="modal-title" id="deleteModalLabel">Suppression d'un patient</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
