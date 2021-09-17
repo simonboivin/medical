@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head th:include="~{ head :: #head }"></head>
+
+<body>
+    <header th:include="~{ header :: #header }"></header>
+    <main>
+        <div class="container">
+
+            <H1>Bonjour</H1>
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <td>id</td>
+                        <td>Nom de famille</td>
+                        <td>Prénom</td>
+                        <td>Email</td>
+                        <td>Téléphone</td>
+                        <td>Ville</td>
+                        <td>Photo</td>
+                        <td>Actions</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="patient : ${patients_list}">
+                        <td th:utext="${patient.id}"></td>
+                        <td th:utext="${patient.lastName}"></td>
+                        <td th:utext="${patient.firstName}"></td>
+                        <td th:utext="${patient.email}"></td>
+                        <td th:utext="${patient.phoneNumber}"></td>
+                        <td th:utext="${patient.city?.name}"></td>
+                        <td><a th:utext="${patient.photo}" th:href="@{'/photopatients/' + ${patient.photo}}"></a></td>
+                        <td><a class="btn btn-secondary" th:href="@{'/patients/edit/' + ${patient.id}}">Editer</a>
+                            &nbsp;
+                            <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal" th:dataid="${patient.id}">Supprimer</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+    </main>
+    <footer></footer>
+
+
+    <!-- Modal -->
+    <div class="modal fade " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form class="modal-form" action="" method="POST">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Suppression d'un patient</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <P class="modal-message">N/A</P>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-danger">Supprimer</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+</html>
