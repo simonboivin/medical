@@ -4,4 +4,7 @@ import com.atos.medical.model.entities.UsersEntity;
 import org.springframework.data.repository.CrudRepository;
 
 public interface UsersRepository extends CrudRepository<UsersEntity, Integer> {
+
+    public UsersEntity findByEmail(String email);
+
 }

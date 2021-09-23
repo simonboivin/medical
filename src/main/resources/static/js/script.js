@@ -1,14 +1,14 @@
-var exampleModal = document.getElementById('exampleModal')
-exampleModal.addEventListener('show.bs.modal', function (event) {
+const deleteModal = document.getElementById('deleteModal')
+deleteModal.addEventListener('show.bs.modal', function (event) {
 
-    var button = event.relatedTarget
+    let button = event.relatedTarget
 
-    var recipient = button.getAttribute('dataid')
+    let recipient = button.getAttribute('dataid')
 
-    var modalMesssage = exampleModal.querySelector('.modal-message')
+    let modalMesssage = deleteModal.querySelector('.modal-message')
 
     modalMesssage.textContent = 'Voulez-vous supprimer le patient ' + recipient + '?'
-    var modalForm = exampleModal.querySelector('.modal-form')
-    var modalFormLink = '/patients/delete/' + recipient
+    let modalForm = deleteModal.querySelector('.modal-form')
+    let modalFormLink = '/patients/delete/' + recipient
     modalForm.setAttribute("action", modalFormLink)
 })
